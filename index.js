@@ -1,28 +1,32 @@
 
- function createLoginTracker  (userInfo) {
- let attemptCount = 0;
- const maxAttempts = 3;
- return (password ) => { 
-    attemptCount++;
-    if(attemptCount > 3){
-        return `Account locked for ${userInfo.username} after ${attemptCount - 1} failed attempts.`;
-    }
-    if (password === userInfo.password) {
-        return `Login successful for ${userInfo.username} after ${attemptCount} attempts.`;
-    } else {
-        return `Login failed for ${userInfo.username}. Attempt ${attemptCount}.`;
-    }
-  }
- }
- const user = { username: "user1", password: "securePass" };
- const login = createLoginTracker(user);
 
- const input = prompt("Enter your password:");
- const result = login(input);
- alert(result);
-  console.log(result);
+// Outer function
+const createLoginSystem = () => {
+    const attempts = {};
+    
+    // Arrow function
+    return (userInfo) => {
+        const {username, password} = userInfo;
+        
+        attempts[username] = (attempts[username] || 0) + 1;
+        
+        if (attempts[username] > 3) return "Account locked!";
+        if (password === "secret") {
+            attempts[username] = 0;
+            return "Login successful!";
+        }
+        return `Wrong! ${3 - attempts[username]} attempts left`;
+    };
+};
 
-module.exports = {
+// Usage
+const login = createLoginSystem();
+console.log(login({username: "john", password: "wrong"}));
+console.log(login({username: "john", password: "wrong"}));
+console.log(login({username: "john", password: "wrong"}));
+console.log(login({username: "john", password: "secret"}));
+
   ...(typeof createLoginTracker !== 'undefined' && { createLoginTracker })
 
 };
+
