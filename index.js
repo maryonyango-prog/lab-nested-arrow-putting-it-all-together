@@ -1,9 +1,7 @@
 
 
 
-module.exports = {
-  ...(typeof createLoginTracker !== 'undefined' && { createLoginTracker })
-};
+
 
 // Create outer function
 function createLoginTracker(userInfo) {
@@ -30,4 +28,8 @@ function createLoginTracker(userInfo) {
 
   // Return inner arrow function
   return loginAttempt;
+
 }
+module.exports = {
+  ...(typeof createLoginTracker !== 'undefined' && { createLoginTracker })
+};
